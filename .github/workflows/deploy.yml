@@ -1,0 +1,23 @@
+name: Deploy App
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  ci-cd:
+    uses: karolarcemz-crypto/actions-templates/.github/workflows/ci-cd-template.yml@main
+    with:
+      acr-name: acrdemoghaka01          # <-- tu ACR (sin .azurecr.io)
+      image-name: demo-app
+      webapp-name: webapp-demo-gha-kr  # <-- tu Web App
+      resource-group: rg-demo-gha
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
